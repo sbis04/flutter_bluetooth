@@ -26,8 +26,25 @@ flutter run
 ```
 If you get any error like this : 
 <p align="center">
-  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_1.png">
+  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/error_screenshot.png">
 </p>
+Then navigate to your project folder (like, flutter_bluetooth) after opening the project folder follow these steps:
+android -> app -> src -> main -> AndroidManifest.xml
+
+Now, add these two lines of code :
+
+```xml
+<manifest ......
+          
+    <!-- this line -->
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- and this line -->
+    <uses-sdk tools:overrideLibrary="io.github.edufolly.flutterbluetoothserial"/>
+    ...
+</manifest>
+```
+
 
 ## Screenshots
 <p align="center">
