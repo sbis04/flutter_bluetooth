@@ -13,6 +13,22 @@ Add this dependency in pubspec.yaml:
 dependencies:
   flutter_bluetooth_serial: ^0.0.4
  ```
+ 
+## How to run the app
+You should have flutter installed and up running properly to use this application.
+To check if there is any problem, use the command:
+```bash
+flutter doctor
+```
+Now, navigate to the project folder and run this command:
+```bash
+flutter run
+```
+If you get any error like this : 
+<p align="center">
+  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_1.png">
+</p>
+
 ## Screenshots
 <p align="center">
   <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_2.png">
