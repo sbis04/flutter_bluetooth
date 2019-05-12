@@ -11,7 +11,7 @@ This flutter plugin is very new and contains a few bugs (like, while starting th
 Add this dependency in pubspec.yaml:
 ```yaml
 dependencies:
-  flutter_bluetooth_serial: ^0.0.4
+  flutter_bluetooth_serial: ^0.0.5
  ```
  
 ## How to run the app
