@@ -1,4 +1,5 @@
 # Flutter Bluetooth
+[![Codemagic build status](https://api.codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/status_badge.svg)](https://codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/latest_build)
 
 ### *NOTE:* The project in the master branch is using a much older version of the flutter_bluetooth_serial plugin (verison: 0.0.5), so it may crash on newer versions of Flutter and Android, as the Andorid bluetooth library is upgraded and many of the method implementations are deprecated. 
 
