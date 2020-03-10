@@ -68,3 +68,13 @@
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+ios/Flutter/flutter_export_environment.sh
+.flutter-plugins-dependencies
+pubspec.lock
+android/.project
+android/app/.classpath
+android/app/.settings/org.eclipse.jdt.core.prefs
+android/app/.settings/org.eclipse.buildship.core.prefs
+android/app/.project
+android/.settings/org.eclipse.buildship.core.prefs
+pubspec.lock

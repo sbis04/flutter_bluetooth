@@ -1,5 +1,7 @@
 // For performing some operations asynchronously
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 
 // For using PlatformException
 import 'package:flutter/services.dart';
@@ -28,10 +30,18 @@ class BluetoothApp extends StatefulWidget {
 }
 
 class _BluetoothAppState extends State<BluetoothApp> {
+  // Initializing the bluetooth connecting state to be unknown
+  BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   // Initializing a global key, as it would help us in showing a SnackBar later
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // Get the instance of the bluetooth
   FlutterBluetoothSerial bluetooth = FlutterBluetoothSerial.instance;
+
+  BluetoothConnection connection;
+
+  bool isDisconnecting = false;
+
+  bool get isConnected => connection != null && connection.isConnected;
 
   // Define some variables, which will be required later
   List<BluetoothDevice> _devicesList = [];
@@ -42,7 +52,22 @@ class _BluetoothAppState extends State<BluetoothApp> {
   @override
   void initState() {
     super.initState();
-    bluetoothConnectionState();
+
+    enableBluetooth();
+  }
+
+  // TODO: ADD Docs
+  Future<void> enableBluetooth() async {
+    _bluetoothState = await FlutterBluetoothSerial.instance.state;
+
+    if (_bluetoothState == BluetoothState.STATE_OFF) {
+      await FlutterBluetoothSerial.instance.requestEnable();
+      await bluetoothConnectionState();
+      return true;
+    } else {
+      await bluetoothConnectionState();
+    }
+    return false;
   }
 
   // We are using async callback for using await
@@ -57,28 +82,42 @@ class _BluetoothAppState extends State<BluetoothApp> {
     }
 
     // For knowing when bluetooth is connected and when disconnected
-    bluetooth.onStateChanged().listen((state) {
-      switch (state) {
-        case FlutterBluetoothSerial.CONNECTED:
-          setState(() {
-            _connected = true;
-            _pressed = false;
-          });
+    // bluetooth.onStateChanged().listen((state) {
+    //   if (state == BluetoothState.STATE_BLE_ON) {
+    //     setState(() {
+    //       _connected = true;
+    //       _pressed = false;
+    //     });
+    //   } else if (state == BluetoothState.STATE_TURNING_OFF) {
+    //     setState(() {
+    //       _connected = false;
+    //       _pressed = false;
+    //     });
+    //   } else {
+    //     print(state);
+    //   }
+    //   // Bluetooth _state = state;
+    //   // switch (state) {
+    //   //   case BluetoothState.STATE_ON:
+    //   //     setState(() {
+    //   //       _connected = true;
+    //   //       _pressed = false;
+    //   //     });
 
-          break;
+    //   //     break;
 
-        case FlutterBluetoothSerial.DISCONNECTED:
-          setState(() {
-            _connected = false;
-            _pressed = false;
-          });
-          break;
+    //   //   case BluetoothState.STATE_OFF:
+    //   //     setState(() {
+    //   //       _connected = false;
+    //   //       _pressed = false;
+    //   //     });
+    //   //     break;
 
-        default:
-          print(state);
-          break;
-      }
-    });
+    //   //   default:
+    //   //     print(state);
+    //   //     break;
+    //   // }
+    // });
 
     // It is an error to call [setState] unless [mounted] is true.
     if (!mounted) {
@@ -101,13 +140,41 @@ class _BluetoothAppState extends State<BluetoothApp> {
         appBar: AppBar(
           title: Text("Flutter Bluetooth"),
           backgroundColor: Colors.deepPurple,
+          actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              label: Text(
+                "Refresh",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              splashColor: Colors.deepPurple,
+              onPressed: () {
+                enableBluetooth();
+              },
+            ),
+          ],
         ),
         body: Container(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+              Visibility(
+                visible: _pressed,
+                child: LinearProgressIndicator(
+                  backgroundColor: Colors.yellow,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsets.only(top: 10),
                 child: Text(
                   "PAIRED DEVICES",
                   style: TextStyle(fontSize: 24, color: Colors.blue),
@@ -174,12 +241,26 @@ class _BluetoothAppState extends State<BluetoothApp> {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Center(
-                    child: Text(
-                      "NOTE: If you cannot find the device in the list, please turn on bluetooth and pair the device by going to the bluetooth settings",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "NOTE: If you cannot find the device in the list, please pair the device by going to the bluetooth settings",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        RaisedButton(
+                          elevation: 2,
+                          child: Text("Bluetooth Settings"),
+                          onPressed: () {
+                            FlutterBluetoothSerial.instance.openSettings();
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -210,50 +291,116 @@ class _BluetoothAppState extends State<BluetoothApp> {
   }
 
   // Method to connect to bluetooth
-  void _connect() {
+  void _connect() async {
+    setState(() {
+      _pressed = true;
+    });
     if (_device == null) {
       show('No device selected');
     } else {
-      bluetooth.isConnected.then((isConnected) {
-        if (!isConnected) {
-          bluetooth
-              .connect(_device)
-              .timeout(Duration(seconds: 10))
-              .catchError((error) {
-            setState(() => _pressed = false);
+      if (!isConnected) {
+        // BluetoothConnection.toAddress(_device.address)
+        //     .timeout(Duration(seconds: 10))
+        //     .catchError((error) {
+        //   setState(() => _pressed = false);
+        // });
+
+        await BluetoothConnection.toAddress(_device.address)
+            .then((_connection) {
+          print('Connected to the device');
+          connection = _connection;
+          setState(() {
+            _connected = true;
           });
-          setState(() => _pressed = true);
+
+          connection.input.listen(_onDataReceived).onDone(() {
+            if (isDisconnecting) {
+              print('Disconnecting locally!');
+            } else {
+              print('Disconnected remotely!');
+            }
+            if (this.mounted) {
+              setState(() {});
+            }
+          });
+        }).catchError((error) {
+          print('Cannot connect, exception occured');
+          print(error);
+          // setState(() {
+          //   _pressed = false;
+          // });
+        });
+
+        setState(() => _pressed = false);
+      }
+    }
+  }
+
+  void _onDataReceived(Uint8List data) {
+    // Allocate buffer for parsed data
+    int backspacesCounter = 0;
+    data.forEach((byte) {
+      if (byte == 8 || byte == 127) {
+        backspacesCounter++;
+      }
+    });
+    Uint8List buffer = Uint8List(data.length - backspacesCounter);
+    int bufferIndex = buffer.length;
+
+    // Apply backspace control character
+    backspacesCounter = 0;
+    for (int i = data.length - 1; i >= 0; i--) {
+      if (data[i] == 8 || data[i] == 127) {
+        backspacesCounter++;
+      } else {
+        if (backspacesCounter > 0) {
+          backspacesCounter--;
+        } else {
+          buffer[--bufferIndex] = data[i];
         }
-      });
+      }
     }
   }
 
   // Method to disconnect bluetooth
-  void _disconnect() {
-    bluetooth.disconnect();
-    setState(() => _pressed = true);
+  void _disconnect() async {
+    setState(() {
+      _pressed = true;
+    });
+
+    await connection.close();
+    if (!connection.isConnected) {
+      setState(() {
+        _connected = false;
+        _pressed = false;
+      });
+    }
   }
 
   // Method to send message,
   // for turning the bletooth device on
-  void _sendOnMessageToBluetooth() {
-    bluetooth.isConnected.then((isConnected) {
-      if (isConnected) {
-        bluetooth.write("1");
-        show('Device Turned On');
-      }
-    });
+  void _sendOnMessageToBluetooth() async {
+    // bluetooth.isConnected.then((isConnected) {
+    //   if (isConnected) {
+    //     bluetooth.write("1");
+    //     show('Device Turned On');
+    //   }
+    // });
+    connection.output.add(utf8.encode("1" + "\r\n"));
+    await connection.output.allSent;
   }
 
   // Method to send message,
   // for turning the bletooth device off
-  void _sendOffMessageToBluetooth() {
-    bluetooth.isConnected.then((isConnected) {
-      if (isConnected) {
-        bluetooth.write("0");
-        show('Device Turned Off');
-      }
-    });
+  void _sendOffMessageToBluetooth() async {
+    // bluetooth.isConnected.then((isConnected) {
+    //   if (isConnected) {
+    //     bluetooth.write("0");
+    //     show('Device Turned Off');
+    //   }
+    // });
+    connection.output.add(utf8.encode("0" + "\r\n"));
+    await connection.output.allSent;
   }
 
   // Method to show a Snackbar,
