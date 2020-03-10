@@ -1,4 +1,8 @@
-# flutter_bluetooth
+# Flutter Bluetooth
+
+### *NOTE:* The project in the master branch is using a much older version of the flutter_bluetooth_serial plugin (verison: 0.0.5), so it may crash on newer versions of Flutter and Android, as the Andorid bluetooth library is upgraded and many of the method implementations are deprecated. 
+
+### I have the updated version of this app on the branch [bluetooth_0.2.x](https://github.com/sbis04/flutter_bluetooth/tree/bluetooth_0.2.x). I will merge it with master as soon as I complete testing.
 
 This flutter app will help you to connect to Bluetooth Devices (like, HC-05). You can send messages to the bluetooth module and perform various operations. By default, the app has only on and off functionality for any paired bluetooth devices, but you can add as many functionality as you want.
 
