@@ -53,13 +53,31 @@ class _BluetoothAppState extends State<BluetoothApp> {
   void initState() {
     super.initState();
 
+    // If the bluetooth of the device is not enabled,
+    // then request permission to turn on bluetooth
+    // as the app starts up
     enableBluetooth();
   }
 
-  // TODO: ADD Docs
+  @override
+  void dispose() {
+    // Avoid memory leak and disconnect
+    if (isConnected) {
+      isDisconnecting = true;
+      connection.dispose();
+      connection = null;
+    }
+
+    super.dispose();
+  }
+
+  // Request Bluetooth permission from the user
   Future<void> enableBluetooth() async {
+    // Retrieving the current Bluetooth state
     _bluetoothState = await FlutterBluetoothSerial.instance.state;
 
+    // If the bluetooth is off, then turn it on first
+    // and then retrieve the devices that are paired.
     if (_bluetoothState == BluetoothState.STATE_OFF) {
       await FlutterBluetoothSerial.instance.requestEnable();
       await bluetoothConnectionState();
@@ -70,7 +88,8 @@ class _BluetoothAppState extends State<BluetoothApp> {
     return false;
   }
 
-  // We are using async callback for using await
+  // For retrieving and storing the paired devices
+  // in a list.
   Future<void> bluetoothConnectionState() async {
     List<BluetoothDevice> devices = [];
 
@@ -80,44 +99,6 @@ class _BluetoothAppState extends State<BluetoothApp> {
     } on PlatformException {
       print("Error");
     }
-
-    // For knowing when bluetooth is connected and when disconnected
-    // bluetooth.onStateChanged().listen((state) {
-    //   if (state == BluetoothState.STATE_BLE_ON) {
-    //     setState(() {
-    //       _connected = true;
-    //       _pressed = false;
-    //     });
-    //   } else if (state == BluetoothState.STATE_TURNING_OFF) {
-    //     setState(() {
-    //       _connected = false;
-    //       _pressed = false;
-    //     });
-    //   } else {
-    //     print(state);
-    //   }
-    //   // Bluetooth _state = state;
-    //   // switch (state) {
-    //   //   case BluetoothState.STATE_ON:
-    //   //     setState(() {
-    //   //       _connected = true;
-    //   //       _pressed = false;
-    //   //     });
-
-    //   //     break;
-
-    //   //   case BluetoothState.STATE_OFF:
-    //   //     setState(() {
-    //   //       _connected = false;
-    //   //       _pressed = false;
-    //   //     });
-    //   //     break;
-
-    //   //   default:
-    //   //     print(state);
-    //   //     break;
-    //   // }
-    // });
 
     // It is an error to call [setState] unless [mounted] is true.
     if (!mounted) {
@@ -157,6 +138,9 @@ class _BluetoothAppState extends State<BluetoothApp> {
               ),
               splashColor: Colors.deepPurple,
               onPressed: () {
+                // So, that when new devices are paired
+                // while the app is running, user can refresh
+                // the paired devices list.
                 enableBluetooth();
               },
             ),
@@ -299,12 +283,6 @@ class _BluetoothAppState extends State<BluetoothApp> {
       show('No device selected');
     } else {
       if (!isConnected) {
-        // BluetoothConnection.toAddress(_device.address)
-        //     .timeout(Duration(seconds: 10))
-        //     .catchError((error) {
-        //   setState(() => _pressed = false);
-        // });
-
         await BluetoothConnection.toAddress(_device.address)
             .then((_connection) {
           print('Connected to the device');
@@ -326,9 +304,6 @@ class _BluetoothAppState extends State<BluetoothApp> {
         }).catchError((error) {
           print('Cannot connect, exception occured');
           print(error);
-          // setState(() {
-          //   _pressed = false;
-          // });
         });
 
         setState(() => _pressed = false);
@@ -380,12 +355,6 @@ class _BluetoothAppState extends State<BluetoothApp> {
   // Method to send message,
   // for turning the bletooth device on
   void _sendOnMessageToBluetooth() async {
-    // bluetooth.isConnected.then((isConnected) {
-    //   if (isConnected) {
-    //     bluetooth.write("1");
-    //     show('Device Turned On');
-    //   }
-    // });
     connection.output.add(utf8.encode("1" + "\r\n"));
     await connection.output.allSent;
   }
@@ -393,12 +362,6 @@ class _BluetoothAppState extends State<BluetoothApp> {
   // Method to send message,
   // for turning the bletooth device off
   void _sendOffMessageToBluetooth() async {
-    // bluetooth.isConnected.then((isConnected) {
-    //   if (isConnected) {
-    //     bluetooth.write("0");
-    //     show('Device Turned Off');
-    //   }
-    // });
     connection.output.add(utf8.encode("0" + "\r\n"));
     await connection.output.allSent;
   }
