@@ -1,8 +1,10 @@
-# flutter_bluetooth
+# Flutter Bluetooth
 
-This flutter app will help you to connect to Bluetooth Devices (like, HC-05). You can send messages to the bluetooth module and perform various operations. By default, the app has only on and off functionality for any paired bluetooth devices, but you can add as many functionality as you want.
+### *NOTE:* This is the updated version of the app (using flutter_bluetooth_serial 0.2.2). This version has much fewer bugs and provides a lot of functionality.
 
-This flutter plugin is very new and contains a few bugs (like, while starting the app for first time it will show a dialog box, written, "Allow flutter_bluetooth to access this device's location?" instead of showing "Allow Bluetooth access", but it will perform the operation of getting bluetooth access. So, don't get afraid). This plugin is made by implementing the "flutter_blue" plugin.
+This flutter app will help you to connect to Bluetooth Devices (like, HC-05). You can send messages to the bluetooth module and perform various operations. By default, the app has only **on and off functionality** for any paired bluetooth devices, but you can add as many functionality as you want.
+
+Initially, you will have to give **location permission** to the app. As for discovering as well as for connecting to the paired devices, location permission is required as Bluetooth transmission shares some location data.  
 
 <p align="center">
   <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_1.png">
@@ -11,7 +13,7 @@ This flutter plugin is very new and contains a few bugs (like, while starting th
 Add this dependency in pubspec.yaml:
 ```yaml
 dependencies:
-  flutter_bluetooth_serial: ^0.0.5
+  flutter_bluetooth_serial: ^0.2.2
  ```
  
 ## How to run the app
