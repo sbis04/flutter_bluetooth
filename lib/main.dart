@@ -39,7 +39,18 @@ class _BluetoothAppState extends State<BluetoothApp> {
 
   BluetoothConnection connection;
 
+  int _deviceState;
+
   bool isDisconnecting = false;
+
+  Map<String, Color> colors = {
+    'onBorderColor': Colors.green,
+    'offBorderColor': Colors.red,
+    'neutralBorderColor': Colors.transparent,
+    'onTextColor': Colors.green[700],
+    'offTextColor': Colors.red[700],
+    'neutralTextColor': Colors.blue,
+  };
 
   bool get isConnected => connection != null && connection.isConnected;
 
@@ -52,6 +63,8 @@ class _BluetoothAppState extends State<BluetoothApp> {
   @override
   void initState() {
     super.initState();
+
+    _deviceState = 0; // neutral
 
     // If the bluetooth of the device is not enabled,
     // then request permission to turn on bluetooth
@@ -192,7 +205,18 @@ class _BluetoothAppState extends State<BluetoothApp> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    side: new BorderSide(
+                      color: _deviceState == 0
+                          ? colors['neutralBorderColor']
+                          : _deviceState == 1
+                              ? colors['onBorderColor']
+                              : colors['offBorderColor'],
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  elevation: _deviceState == 0 ? 4 : 0,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -202,7 +226,11 @@ class _BluetoothAppState extends State<BluetoothApp> {
                             "DEVICE 1",
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.green,
+                              color: _deviceState == 0
+                                  ? colors['neutralTextColor']
+                                  : _deviceState == 1
+                                      ? colors['onTextColor']
+                                      : colors['offTextColor'],
                             ),
                           ),
                         ),
@@ -305,6 +333,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
           print('Cannot connect, exception occured');
           print(error);
         });
+        show('Device connected');
 
         setState(() => _pressed = false);
       }
@@ -341,9 +370,11 @@ class _BluetoothAppState extends State<BluetoothApp> {
   void _disconnect() async {
     setState(() {
       _pressed = true;
+      _deviceState = 0;
     });
 
     await connection.close();
+    show('Device disconnected');
     if (!connection.isConnected) {
       setState(() {
         _connected = false;
@@ -357,6 +388,10 @@ class _BluetoothAppState extends State<BluetoothApp> {
   void _sendOnMessageToBluetooth() async {
     connection.output.add(utf8.encode("1" + "\r\n"));
     await connection.output.allSent;
+    show('Device Turned On');
+    setState(() {
+      _deviceState = 1; // device on
+    });
   }
 
   // Method to send message,
@@ -364,6 +399,10 @@ class _BluetoothAppState extends State<BluetoothApp> {
   void _sendOffMessageToBluetooth() async {
     connection.output.add(utf8.encode("0" + "\r\n"));
     await connection.output.allSent;
+    show('Device Turned Off');
+    setState(() {
+      _deviceState = -1; // device off
+    });
   }
 
   // Method to show a Snackbar,
