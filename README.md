@@ -50,15 +50,15 @@ Now, add these two lines of code :
 
 # Screenshots
 <p align="center">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/bluetooth_turn_on.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/connecting.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_connected.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/bluetooth_turn_on.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/connecting.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_connected.png">
 </p>
 
 <p align="center">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_on.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_off.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_disconnected.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_on.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_off.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_disconnected.png">
 </p>
 
 # License
