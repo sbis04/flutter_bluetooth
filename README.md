@@ -7,7 +7,7 @@ This flutter app will help you to connect to Bluetooth Devices (like, HC-05). Yo
 Initially, you will have to give **location permission** to the app. As for discovering as well as for connecting to the paired devices, location permission is required as Bluetooth transmission shares some location data.  
 
 <p align="center">
-  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_1.png">
+  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/bluetooth_device_location.png">
 </p>
 
 Add this dependency in pubspec.yaml:
@@ -50,9 +50,15 @@ Now, add these two lines of code :
 
 # Screenshots
 <p align="center">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_2.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_3.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_4.png">
+  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/bluetooth_turn_on.png">
+  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/connecting.png">
+  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_connected.png">
+</p>
+
+<p align="center">
+  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_on.png">
+  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_off.png">
+  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_disconnected.png">
 </p>
 
 # License
