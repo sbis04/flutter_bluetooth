@@ -1,24 +1,20 @@
 # Flutter Bluetooth
 [![Codemagic build status](https://api.codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/status_badge.svg)](https://codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/latest_build)
 
-### *NOTE:* The project in the master branch is using a much older version of the flutter_bluetooth_serial plugin (verison: 0.0.5), so it may crash on newer versions of Flutter and Android, as the Andorid bluetooth library is upgraded and many of the method implementations are deprecated. 
+### *NOTE:* This is the updated version of the app (using flutter_bluetooth_serial 0.2.2). This version has much fewer bugs and provides a lot of functionality.
 
-### I have the updated version of this app on the branch [bluetooth_0.2.x](https://github.com/sbis04/flutter_bluetooth/tree/bluetooth_0.2.x). I will merge it with master as soon as I complete testing.
+This flutter app will help you to connect to Bluetooth Devices (like, HC-05). You can send messages to the bluetooth module and perform various operations. By default, the app has only **on and off functionality** for any paired bluetooth devices, but you can add as many functionality as you want.
 
-#### *UPDATE:* Many of the bugs that were present in the earlier version of the plugin are now fixed in *version 0.2.2*.
-
-This flutter app will help you to connect to Bluetooth Devices (like, HC-05). You can send messages to the bluetooth module and perform various operations. By default, the app has only on and off functionality for any paired bluetooth devices, but you can add as many functionality as you want.
-
-This flutter plugin is very new and contains a few bugs (like, while starting the app for first time it will show a dialog box, written, "Allow flutter_bluetooth to access this device's location?" instead of showing "Allow Bluetooth access", but it will perform the operation of getting bluetooth access. So, don't get afraid). This plugin is made by implementing the "flutter_blue" plugin.
+Initially, you will have to give **location permission** to the app. As for discovering as well as for connecting to the paired devices, location permission is required as Bluetooth transmission shares some location data.  
 
 <p align="center">
-  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_1.png">
+  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/bluetooth_device_location.png">
 </p>
 
 Add this dependency in pubspec.yaml:
 ```yaml
 dependencies:
-  flutter_bluetooth_serial: ^0.0.5
+  flutter_bluetooth_serial: ^0.2.2
  ```
  
 ## How to run the app
@@ -55,9 +51,15 @@ Now, add these two lines of code :
 
 # Screenshots
 <p align="center">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_2.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_3.png">
-  <img width="200" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/flutter_bluetooth_4.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/bluetooth_turn_on.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/connecting.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_connected.png">
+</p>
+
+<p align="center">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_on.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_off.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/bluetooth_0.2.x/screenshots/device_disconnected.png">
 </p>
 
 # License
