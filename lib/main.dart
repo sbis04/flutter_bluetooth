@@ -30,13 +30,13 @@ class BluetoothApp extends StatefulWidget {
 }
 
 class _BluetoothAppState extends State<BluetoothApp> {
-  // Initializing the bluetooth connecting state to be unknown
+  // Initializing the Bluetooth connection state to be unknown
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   // Initializing a global key, as it would help us in showing a SnackBar later
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // Get the instance of the bluetooth
-  FlutterBluetoothSerial bluetooth = FlutterBluetoothSerial.instance;
-
+  // Get the instance of the Bluetooth
+  FlutterBluetoothSerial _bluetooth = FlutterBluetoothSerial.instance;
+  // Track the Bluetooth connection with the remote device
   BluetoothConnection connection;
 
   int _deviceState;
@@ -52,6 +52,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
     'neutralTextColor': Colors.blue,
   };
 
+  // To track whether the device is still connected to Bluetooth
   bool get isConnected => connection != null && connection.isConnected;
 
   // Define some variables, which will be required later
@@ -128,7 +129,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
 
     // To get the list of paired devices
     try {
-      devices = await bluetooth.getBondedDevices();
+      devices = await _bluetooth.getBondedDevices();
     } on PlatformException {
       print("Error");
     }
