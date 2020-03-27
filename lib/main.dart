@@ -79,7 +79,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
     // as the app starts up
     enableBluetooth();
 
-    // Listen for futher state changes
+    // Listen for further state changes
     FlutterBluetoothSerial.instance
         .onStateChanged()
         .listen((BluetoothState state) {
@@ -88,7 +88,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
         if (_bluetoothState == BluetoothState.STATE_OFF) {
           _isButtonUnavailable = true;
         }
-        bluetoothConnectionState();
+        getPairedDevices();
       });
     });
   }
@@ -114,17 +114,17 @@ class _BluetoothAppState extends State<BluetoothApp> {
     // and then retrieve the devices that are paired.
     if (_bluetoothState == BluetoothState.STATE_OFF) {
       await FlutterBluetoothSerial.instance.requestEnable();
-      await bluetoothConnectionState();
+      await getPairedDevices();
       return true;
     } else {
-      await bluetoothConnectionState();
+      await getPairedDevices();
     }
     return false;
   }
 
   // For retrieving and storing the paired devices
   // in a list.
-  Future<void> bluetoothConnectionState() async {
+  Future<void> getPairedDevices() async {
     List<BluetoothDevice> devices = [];
 
     // To get the list of paired devices
@@ -175,7 +175,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
                 // So, that when new devices are paired
                 // while the app is running, user can refresh
                 // the paired devices list.
-                await bluetoothConnectionState().then((_) {
+                await getPairedDevices().then((_) {
                   show('Device list refreshed');
                 });
               },
@@ -220,7 +220,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
                                 .requestDisable();
                           }
 
-                          await bluetoothConnectionState();
+                          await getPairedDevices();
                           _isButtonUnavailable = false;
 
                           if (_connected) {
@@ -401,7 +401,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
             _connected = true;
           });
 
-          connection.input.listen(_onDataReceived).onDone(() {
+          connection.input.listen(null).onDone(() {
             if (isDisconnecting) {
               print('Disconnecting locally!');
             } else {
@@ -412,7 +412,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
             }
           });
         }).catchError((error) {
-          print('Cannot connect, exception occured');
+          print('Cannot connect, exception occurred');
           print(error);
         });
         show('Device connected');
@@ -422,31 +422,31 @@ class _BluetoothAppState extends State<BluetoothApp> {
     }
   }
 
-  void _onDataReceived(Uint8List data) {
-    // Allocate buffer for parsed data
-    int backspacesCounter = 0;
-    data.forEach((byte) {
-      if (byte == 8 || byte == 127) {
-        backspacesCounter++;
-      }
-    });
-    Uint8List buffer = Uint8List(data.length - backspacesCounter);
-    int bufferIndex = buffer.length;
+  // void _onDataReceived(Uint8List data) {
+  //   // Allocate buffer for parsed data
+  //   int backspacesCounter = 0;
+  //   data.forEach((byte) {
+  //     if (byte == 8 || byte == 127) {
+  //       backspacesCounter++;
+  //     }
+  //   });
+  //   Uint8List buffer = Uint8List(data.length - backspacesCounter);
+  //   int bufferIndex = buffer.length;
 
-    // Apply backspace control character
-    backspacesCounter = 0;
-    for (int i = data.length - 1; i >= 0; i--) {
-      if (data[i] == 8 || data[i] == 127) {
-        backspacesCounter++;
-      } else {
-        if (backspacesCounter > 0) {
-          backspacesCounter--;
-        } else {
-          buffer[--bufferIndex] = data[i];
-        }
-      }
-    }
-  }
+  //   // Apply backspace control character
+  //   backspacesCounter = 0;
+  //   for (int i = data.length - 1; i >= 0; i--) {
+  //     if (data[i] == 8 || data[i] == 127) {
+  //       backspacesCounter++;
+  //     } else {
+  //       if (backspacesCounter > 0) {
+  //         backspacesCounter--;
+  //       } else {
+  //         buffer[--bufferIndex] = data[i];
+  //       }
+  //     }
+  //   }
+  // }
 
   // Method to disconnect bluetooth
   void _disconnect() async {
@@ -466,7 +466,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
   }
 
   // Method to send message,
-  // for turning the bletooth device on
+  // for turning the Bluetooth device on
   void _sendOnMessageToBluetooth() async {
     connection.output.add(utf8.encode("1" + "\r\n"));
     await connection.output.allSent;
@@ -477,7 +477,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
   }
 
   // Method to send message,
-  // for turning the bletooth device off
+  // for turning the Bluetooth device off
   void _sendOffMessageToBluetooth() async {
     connection.output.add(utf8.encode("0" + "\r\n"));
     await connection.output.allSent;
