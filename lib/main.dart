@@ -1,7 +1,6 @@
 // For performing some operations asynchronously
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 // For using PlatformException
 import 'package:flutter/services.dart';
