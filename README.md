@@ -1,5 +1,8 @@
-# Flutter Bluetooth
-[![Codemagic build status](https://api.codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/status_badge.svg)](https://codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/latest_build)
+# Flutter Bluetooth 
+[![Codemagic build status](https://api.codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/status_badge.svg)](https://codemagic.io/apps/5e675f714ce63c22e5aeb47f/5e675f714ce63c22e5aeb47e/latest_build) 
+
+![GitHub followers](https://img.shields.io/github/followers/sbis04?label=Follow&style=social) 
+![Twitter Follow](https://img.shields.io/twitter/follow/sbis04?label=Follow&style=social)
 
 ### *NOTE:* This is the updated version of the app (using flutter_bluetooth_serial 0.2.2). This version has much fewer bugs and provides a lot of functionality.
 
