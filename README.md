@@ -7,7 +7,7 @@
 > 
 > A much optimized and production release version of this app is available, called **Connect** (supports both **Android** and **iOS** devices).
 > 
-> Learn more about it here.
+> [Learn more about it here.](https://www.souvikbiswas.com/connect)
 > 
 > ![](https://github.com/sbis04/flutter_bluetooth/raw/master/images/connect_promo.png)
 
