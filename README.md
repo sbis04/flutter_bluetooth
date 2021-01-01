@@ -3,12 +3,20 @@
 
 ### *NOTE:* This is the updated version of the app (using flutter_bluetooth_serial 0.2.2). This version has much fewer bugs and provides a lot of functionality.
 
+> **IMPORTANT NOTE:** 
+> 
+> A much optimized and production release version of this app is available, called **Connect** (supports both **Android** and **iOS** devices).
+> 
+> Learn more about it here.
+> 
+> ![](https://github.com/sbis04/flutter_bluetooth/raw/master/images/connect_promo.png)
+
 This flutter app will help you to connect to Bluetooth Devices (like, HC-05). You can send messages to the bluetooth module and perform various operations. By default, the app has only **on and off functionality** for any paired bluetooth devices, but you can add as many functionality as you want.
 
 Initially, you will have to give **location permission** to the app. As for discovering as well as for connecting to the paired devices, location permission is required as Bluetooth transmission shares some location data.  
 
 <p align="center">
-  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/bluetooth_device_location.png">
+  <img width="300" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/bluetooth_device_location.png">
 </p>
 
 Add this dependency in pubspec.yaml:
@@ -29,7 +37,7 @@ flutter run
 ```
 If you get any error like this : 
 <p align="center">
-  <img width=max src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/error_screenshot.png">
+  <img width=max src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/error_screenshot.png">
 </p>
 Then navigate to your project folder (like, flutter_bluetooth) after opening the project folder follow these steps:
 android -> app -> src -> main -> AndroidManifest.xml
@@ -51,15 +59,15 @@ Now, add these two lines of code :
 
 # Screenshots
 <p align="center">
-  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/bluetooth_turn_on.png">
-  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/connecting.png">
-  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/device_connected.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/bluetooth_turn_on.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/connecting.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/device_connected.png">
 </p>
 
 <p align="center">
-  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/device_on.png">
-  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/device_off.png">
-  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/blob/master/screenshots/device_disconnected.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/device_on.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/device_off.png">
+  <img width="250" src="https://github.com/sbis04/flutter_bluetooth/raw/master/screenshots/device_disconnected.png">
 </p>
 
 # License
