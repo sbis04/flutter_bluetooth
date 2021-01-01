@@ -3,7 +3,7 @@
 
 ### *NOTE:* This is the updated version of the app (using flutter_bluetooth_serial 0.2.2). This version has much fewer bugs and provides a lot of functionality.
 
-> **IMPORTANT NOTE:** 
+> **IMPORTANT NOTE [January 1, 2021]:** 
 > 
 > A much optimized and production release version of this app is available, called **Connect** (supports both **Android** and **iOS** devices).
 > 
